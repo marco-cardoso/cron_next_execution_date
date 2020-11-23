@@ -23,14 +23,6 @@ def get_current_datetime(time: str) -> datetime:
     return dt
 
 
-def read_cron_cmd():
-    try:
-        cron = input()
-        return cron
-    except Exception:
-        return None
-
-
 def __validate_current_time_re(time: str) -> bool:
     valid_re = bool(re.match(CURRENT_TIME_RE, time))
     return valid_re
