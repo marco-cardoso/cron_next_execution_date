@@ -1,6 +1,6 @@
 import pytest
 from ..cron import CRON
-from ..utils import time
+from ..utils import time, argument_reader
 
 
 def test_valid_hour():
@@ -73,3 +73,84 @@ def test_validate_cron_cmd():
     cmd = "*  /dasda@xa@!#^DA "
     with pytest.raises(AttributeError):
         CRON(cmd)
+
+
+def test_get_next_cron_datetime():
+
+    cmd = "* * /bin/test.sh"
+    cron = CRON(cmd)
+    current_time = argument_reader.get_current_datetime("14:00")
+    next_dt = cron.get_next_execution_date(current_time)
+    assert (next_dt.minute == 1) and (next_dt.hour == 14) and (next_dt.day == current_time.day)
+
+    cmd = "* * /bin/test.sh"
+    cron = CRON(cmd)
+    current_time = argument_reader.get_current_datetime("00:00")
+    next_dt = cron.get_next_execution_date(current_time)
+    assert (next_dt.minute == 1) and (next_dt.hour == 0) and (next_dt.day == current_time.day)
+
+    cmd = "* 1 /bin/test.sh"
+    cron = CRON(cmd)
+    current_time = argument_reader.get_current_datetime("00:00")
+    next_dt = cron.get_next_execution_date(current_time)
+    assert (next_dt.minute == 0) and (next_dt.hour == 1) and (next_dt.day == current_time.day)
+
+    cmd = "* 22 /bin/test.sh"
+    cron = CRON(cmd)
+    current_time = argument_reader.get_current_datetime("00:00")
+    next_dt = cron.get_next_execution_date(current_time)
+    assert (next_dt.minute == 0) and (next_dt.hour == 22) and (next_dt.day == current_time.day)
+
+    cmd = "* 19 /bin/test.sh"
+    cron = CRON(cmd)
+    current_time = argument_reader.get_current_datetime("19:43")
+    next_dt = cron.get_next_execution_date(current_time)
+    assert (next_dt.minute == 44) and (next_dt.hour == 19) and (next_dt.day == current_time.day)
+
+    cmd = "* 0 /bin/test.sh"
+    cron = CRON(cmd)
+    current_time = argument_reader.get_current_datetime("23:59")
+    next_dt = cron.get_next_execution_date(current_time)
+    assert (next_dt.minute == 0) and (next_dt.hour == 0) and (next_dt.day == current_time.day + 1)
+
+    cmd = "* 0 /bin/test.sh"
+    cron = CRON(cmd)
+    current_time = argument_reader.get_current_datetime("00:00")
+    next_dt = cron.get_next_execution_date(current_time)
+    assert (next_dt.minute == 1) and (next_dt.hour == 0) and (next_dt.day == current_time.day)
+
+    cmd = "0 * /bin/test.sh"
+    cron = CRON(cmd)
+    current_time = argument_reader.get_current_datetime("00:00")
+    next_dt = cron.get_next_execution_date(current_time)
+    assert (next_dt.minute == 0) and (next_dt.hour == 1) and (next_dt.day == current_time.day)
+
+    cmd = "0 * /bin/test.sh"
+    cron = CRON(cmd)
+    current_time = argument_reader.get_current_datetime("19:01")
+    next_dt = cron.get_next_execution_date(current_time)
+    assert (next_dt.minute == 0) and (next_dt.hour == 20) and (next_dt.day == current_time.day)
+
+    cmd = "0 * /bin/test.sh"
+    cron = CRON(cmd)
+    current_time = argument_reader.get_current_datetime("23:01")
+    next_dt = cron.get_next_execution_date(current_time)
+    assert (next_dt.minute == 0) and (next_dt.hour == 0) and (next_dt.day == current_time.day + 1)
+
+    cmd = "0 0 /bin/test.sh"
+    cron = CRON(cmd)
+    current_time = argument_reader.get_current_datetime("23:01")
+    next_dt = cron.get_next_execution_date(current_time)
+    assert (next_dt.minute == 0) and (next_dt.hour == 0) and (next_dt.day == current_time.day + 1)
+
+    cmd = "5 23 /bin/test.sh"
+    cron = CRON(cmd)
+    current_time = argument_reader.get_current_datetime("23:01")
+    next_dt = cron.get_next_execution_date(current_time)
+    assert (next_dt.minute == 5) and (next_dt.hour == 23) and (next_dt.day == current_time.day)
+
+    cmd = "0 23 /bin/test.sh"
+    cron = CRON(cmd)
+    current_time = argument_reader.get_current_datetime("23:01")
+    next_dt = cron.get_next_execution_date(current_time)
+    assert (next_dt.minute == 0) and (next_dt.hour == 23) and (next_dt.day == current_time.day + 1)

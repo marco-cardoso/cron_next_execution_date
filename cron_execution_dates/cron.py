@@ -1,4 +1,6 @@
 import re
+from datetime import datetime
+
 from .utils.time import valid_hour, valid_minute
 
 
@@ -22,3 +24,17 @@ class CRON:
 
         if (self.hour != '*') and not valid_hour(int(self.hour)):
             raise ValueError("Invalid value. The minute must within the range 0-23")
+
+    def get_next_execution_date(self, current_datetime: datetime) -> datetime:
+        pass
+
+    def __get_execution_dates(self):
+
+        if (self.minute == "*") and (self.hour == "*"):
+            pass
+        elif self.minute == "*":
+            pass
+        elif self.hour == "*":
+            pass
+        else:
+            pass
