@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     cron_exp = read_cron_cmd(current_dt)
     while cron_exp is not None:
-        nxt_exe_day_msg = output.format_output(cron_exp)
+        nxt_exe_day_msg = output.get_output(cron_exp)
         output.print_output(nxt_exe_day_msg)
 
         cron_exp = read_cron_cmd(current_dt)

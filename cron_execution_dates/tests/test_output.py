@@ -23,12 +23,12 @@ def test_get_msg():
     file = "/bin/test.sh"
     day = "today"
 
-    msg = output.get_msg(dt, day, file)
+    msg = output.format_msg(dt, day, file)
     assert msg == f"10:00 {day} - {file}"
 
     dt = datetime(2020, 11, 23, 1, 0, 0)
 
-    msg = output.get_msg(dt, day, file)
+    msg = output.format_msg(dt, day, file)
     assert msg == f"01:00 {day} - {file}"
 
 
@@ -42,4 +42,4 @@ def test_format_output():
     cur_dt = cron.current_date
 
     exe_day = output.get_execution_day_str(cur_dt.day, nxt_exe_dt.day)
-    assert output.format_output(cron) == f"14:00 {exe_day} - {file}"
+    assert output.get_output(cron) == f"14:00 {exe_day} - {file}"
