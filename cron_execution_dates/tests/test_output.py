@@ -42,4 +42,4 @@ def test_format_output():
     cur_dt = cron.current_date
 
     exe_day = output.get_execution_day_str(cur_dt.day, nxt_exe_dt.day)
-    assert output.format_output(cron) == f"14:01 {exe_day} - {file}"
+    assert output.format_output(cron) == f"14:00 {exe_day} - {file}"

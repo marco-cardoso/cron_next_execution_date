@@ -7,13 +7,13 @@ CURRENT_TIME_RE = "^(?P<hour>[0-9]{1,2}):(?P<minute>[0-9]{2})$"
 Time = namedtuple('Time', ['hour', 'minute'])
 
 
-def get_current_time_arg() -> str:
+def get_current_time_str() -> str:
     arg = str(sys.argv[1])
     valid_arg = __validate_current_time_re(arg)
     if valid_arg:
         return arg
     else:
-        raise ValueError("Current time must follow HH:MM ")
+        raise ValueError("Current time must follow the pattern HH:MM ")
 
 
 def get_current_datetime(time: str) -> datetime:

@@ -83,13 +83,13 @@ def test_get_next_cron_datetime():
     current_time = argument_reader.get_current_datetime("14:00")
     cron = CRON(cmd, current_time)
     next_dt = cron.next_execution_date
-    assert (next_dt.minute == 1) and (next_dt.hour == 14) and (next_dt.day == current_time.day)
+    assert (next_dt.minute == 0) and (next_dt.hour == 14) and (next_dt.day == current_time.day)
 
     cmd = "* * /bin/test.sh"
     current_time = argument_reader.get_current_datetime("00:00")
     cron = CRON(cmd, current_time)
     next_dt = cron.next_execution_date
-    assert (next_dt.minute == 1) and (next_dt.hour == 0) and (next_dt.day == current_time.day)
+    assert (next_dt.minute == 0) and (next_dt.hour == 0) and (next_dt.day == current_time.day)
 
     cmd = "* 1 /bin/test.sh"
     current_time = argument_reader.get_current_datetime("00:00")
@@ -107,13 +107,13 @@ def test_get_next_cron_datetime():
     current_time = argument_reader.get_current_datetime("19:43")
     cron = CRON(cmd, current_time)
     next_dt = cron.next_execution_date
-    assert (next_dt.minute == 44) and (next_dt.hour == 19) and (next_dt.day == current_time.day)
+    assert (next_dt.minute == 43) and (next_dt.hour == 19) and (next_dt.day == current_time.day)
 
     cmd = "* 19 /bin/test.sh"
     current_time = argument_reader.get_current_datetime("19:59")
     cron = CRON(cmd, current_time)
     next_dt = cron.next_execution_date
-    assert (next_dt.minute == 00) and (next_dt.hour == 19) and (next_dt.day == current_time.day + 1)
+    assert (next_dt.minute == 59) and (next_dt.hour == 19)
 
     cmd = "* 0 /bin/test.sh"
     current_time = argument_reader.get_current_datetime("23:59")
@@ -125,13 +125,13 @@ def test_get_next_cron_datetime():
     current_time = argument_reader.get_current_datetime("00:00")
     cron = CRON(cmd, current_time)
     next_dt = cron.next_execution_date
-    assert (next_dt.minute == 1) and (next_dt.hour == 0) and (next_dt.day == current_time.day)
+    assert (next_dt.minute == 0) and (next_dt.hour == 0) and (next_dt.day == current_time.day)
 
     cmd = "0 * /bin/test.sh"
     current_time = argument_reader.get_current_datetime("00:00")
     cron = CRON(cmd, current_time)
     next_dt = cron.next_execution_date
-    assert (next_dt.minute == 0) and (next_dt.hour == 1) and (next_dt.day == current_time.day)
+    assert (next_dt.minute == 0) and (next_dt.hour == 0)
 
     cmd = "0 * /bin/test.sh"
     current_time = argument_reader.get_current_datetime("19:01")

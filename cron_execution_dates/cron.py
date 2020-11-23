@@ -1,7 +1,7 @@
 import re
 from datetime import datetime, timedelta
 
-from .utils.time import valid_hour, valid_minute
+from utils.time import valid_hour, valid_minute
 
 
 class CRON:
@@ -20,10 +20,10 @@ class CRON:
         self.file = str(regex.group("file"))
 
         if (self.minute != '*') and not valid_minute(int(self.minute)):
-            raise ValueError("Invalid value. The minute must within the range 0-59")
+            raise ValueError("Invalid value. The minute must be within the range 0-59")
 
         if (self.hour != '*') and not valid_hour(int(self.hour)):
-            raise ValueError("Invalid value. The minute must within the range 0-23")
+            raise ValueError("Invalid value. The minute must be within the range 0-23")
 
         self.current_date = current_datetime
         self.next_execution_date = self.__get_next_execution_date(current_datetime)
@@ -31,18 +31,10 @@ class CRON:
     def __get_next_execution_date(self, current_datetime: datetime) -> datetime:
 
         if (self.minute == "*") and (self.hour == "*"):
-            next_execution_date = current_datetime + timedelta(minutes=1)
-            return next_execution_date
+            return current_datetime
         elif self.minute == "*":
             if int(self.hour) == current_datetime.hour:
-
-                if current_datetime.minute < 59:
-                    next_execution_date = current_datetime + timedelta(minutes=1)
-                    return next_execution_date
-                else:
-                    next_execution_date = current_datetime.replace(minute=0) + timedelta(days=1)
-                    return next_execution_date
-
+                return current_datetime
             elif int(self.hour) < current_datetime.hour:
                 next_execution_date = current_datetime.replace(hour=int(self.hour), minute=0) + timedelta(days=1)
                 return next_execution_date
@@ -52,8 +44,7 @@ class CRON:
 
         elif self.hour == "*":
             if int(self.minute) == current_datetime.minute:
-                next_execution_date = current_datetime + timedelta(hours=1)
-                return next_execution_date
+                return current_datetime
             elif int(self.minute) < current_datetime.minute:
                 next_execution_date = current_datetime.replace(minute=int(self.minute)) + timedelta(hours=1)
                 return next_execution_date

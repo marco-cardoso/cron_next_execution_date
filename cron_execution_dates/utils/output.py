@@ -1,6 +1,6 @@
 import datetime
 
-from ..cron import CRON
+from cron import CRON
 
 
 def get_execution_day_str(current_day: int, exe_day: int) -> str:
