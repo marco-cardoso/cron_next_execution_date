@@ -7,7 +7,7 @@ from .utils.time import valid_hour, valid_minute
 class CRON:
     CRON_RE = "((?P<minute>([0-9]{1,2}|\*))[ ]{1,}(?P<hour>([0-9]{1,2}|\*))[ ]{1,}(?P<file>(\/[A-Za-z0-9._-]+){1,}))"
 
-    def __init__(self, expression: str) -> None:
+    def __init__(self, expression: str, current_datetime: datetime) -> None:
         super().__init__()
 
         regex = re.match(self.CRON_RE, expression)
@@ -25,7 +25,10 @@ class CRON:
         if (self.hour != '*') and not valid_hour(int(self.hour)):
             raise ValueError("Invalid value. The minute must within the range 0-23")
 
-    def get_next_execution_date(self, current_datetime: datetime) -> datetime:
+        self.current_date = current_datetime
+        self.next_execution_date = self.__get_next_execution_date(current_datetime)
+
+    def __get_next_execution_date(self, current_datetime: datetime) -> datetime:
 
         if (self.minute == "*") and (self.hour == "*"):
             next_execution_date = current_datetime + timedelta(minutes=1)
@@ -65,3 +68,5 @@ class CRON:
             else:
                 next_execution_date += timedelta(days=1)
                 return next_execution_date
+
+
