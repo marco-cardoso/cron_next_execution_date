@@ -13,7 +13,7 @@ def get_current_time_arg() -> str:
     if valid_arg:
         return arg
     else:
-        raise ValueError("Current time must follow %h:%M ")
+        raise ValueError("Current time must follow HH:MM ")
 
 
 def get_current_datetime(time: str) -> datetime:
