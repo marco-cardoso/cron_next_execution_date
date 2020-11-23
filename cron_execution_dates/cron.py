@@ -1,5 +1,5 @@
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from .utils.time import valid_hour, valid_minute
 
@@ -26,15 +26,42 @@ class CRON:
             raise ValueError("Invalid value. The minute must within the range 0-23")
 
     def get_next_execution_date(self, current_datetime: datetime) -> datetime:
-        pass
-
-    def __get_execution_dates(self):
 
         if (self.minute == "*") and (self.hour == "*"):
-            pass
+            next_execution_date = current_datetime + timedelta(minutes=1)
+            return next_execution_date
         elif self.minute == "*":
-            pass
+            if int(self.hour) == current_datetime.hour:
+
+                if current_datetime.minute < 59:
+                    next_execution_date = current_datetime + timedelta(minutes=1)
+                    return next_execution_date
+                else:
+                    next_execution_date = current_datetime.replace(minute=0) + timedelta(days=1)
+                    return next_execution_date
+
+            elif int(self.hour) < current_datetime.hour:
+                next_execution_date = current_datetime.replace(hour=int(self.hour), minute=0) + timedelta(days=1)
+                return next_execution_date
+            elif int(self.hour) > current_datetime.hour:
+                next_execution_date = current_datetime.replace(hour=int(self.hour), minute=0)
+                return next_execution_date
+
         elif self.hour == "*":
-            pass
+            if int(self.minute) == current_datetime.minute:
+                next_execution_date = current_datetime + timedelta(hours=1)
+                return next_execution_date
+            elif int(self.minute) < current_datetime.minute:
+                next_execution_date = current_datetime.replace(minute=int(self.minute)) + timedelta(hours=1)
+                return next_execution_date
+            elif int(self.minute) > current_datetime.minute:
+                next_execution_date = current_datetime.replace(minute=int(self.minute))
+                return next_execution_date
         else:
-            pass
+            next_execution_date = current_datetime.replace(hour=int(self.hour), minute=int(self.minute))
+
+            if next_execution_date > current_datetime:
+                return next_execution_date
+            else:
+                next_execution_date += timedelta(days=1)
+                return next_execution_date
