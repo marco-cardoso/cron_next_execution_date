@@ -109,6 +109,8 @@ class CRON:
             #
             # Case when CRON is scheduled to execute at a specific minute/hour
             #
+
+            # Replace the current datetime object with the CRON expression hour and minute
             next_execution_date = current_datetime.replace(hour=int(self.hour), minute=int(self.minute))
 
             if next_execution_date > current_datetime:

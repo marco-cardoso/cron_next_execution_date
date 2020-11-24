@@ -61,15 +61,15 @@ def test_validate_cron_cmd():
         CRON(cmd, current_time)
 
     cmd = "* -2 /bin/test.sh"
-    with pytest.raises(AttributeError):
+    with pytest.raises(ValueError):
         CRON(cmd, current_time)
 
     cmd = "* -2 /"
-    with pytest.raises(AttributeError):
+    with pytest.raises(ValueError):
         CRON(cmd, current_time)
 
     cmd = "*  /dasda@xa@!#^DA "
-    with pytest.raises(AttributeError):
+    with pytest.raises(ValueError):
         CRON(cmd, current_time)
 
 
