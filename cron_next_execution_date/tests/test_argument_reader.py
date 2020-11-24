@@ -1,6 +1,6 @@
 import pytest
 from datetime import datetime
-from cron_execution_dates.utils import argument_reader
+from cron_next_execution_date.utils import argument_reader
 
 
 def test_validate_current_time_re():
