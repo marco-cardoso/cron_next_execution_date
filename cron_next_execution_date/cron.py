@@ -50,7 +50,7 @@ class CRON:
             raise ValueError("Invalid value. The minute must be within the range 0-59")
 
         if (self.hour != '*') and not valid_hour(int(self.hour)):
-            raise ValueError("Invalid value. The minute must be within the range 0-23")
+            raise ValueError("Invalid value. The hour must be within the range 0-23")
 
         self.current_date = current_datetime
         self.next_execution_date = self.__get_next_execution_date(current_datetime)
