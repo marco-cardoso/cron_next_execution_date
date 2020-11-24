@@ -1,3 +1,6 @@
+"""
+    Module responsible to format the output message
+"""
 import datetime
 
 from cron import CRON

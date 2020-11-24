@@ -68,10 +68,6 @@ def test_validate_cron_cmd():
     with pytest.raises(AttributeError):
         CRON(cmd, current_time)
 
-    # cmd = "* * /dasda@xa@!#^DA "
-    # with pytest.raises(ValueError):
-    #     CRON(cmd)
-
     cmd = "*  /dasda@xa@!#^DA "
     with pytest.raises(AttributeError):
         CRON(cmd, current_time)

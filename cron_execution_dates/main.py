@@ -1,3 +1,9 @@
+"""
+    Usage
+
+    python main.py HH:MM < config
+
+"""
 import datetime
 from cron import CRON
 from utils import argument_reader, output
