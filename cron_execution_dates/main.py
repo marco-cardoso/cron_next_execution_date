@@ -11,8 +11,9 @@ from utils import argument_reader, output
 
 def read_cron_cmd(current_datetime: datetime):
     """
-    Read the CRON expression from input
+    Read the CRON expression from input and convert into a CRON object
     :param current_datetime: Datetime object representing the current date
+    :return: A CRON object
     """
     try:
         expression = input()
